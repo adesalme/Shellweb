@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { LogIn, Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useTheme } from '../../contexts/ThemeContext';
-import { LoginRequest } from '../../types';
-import { isStandaloneMode } from '../../config/authConfig';
-import LoadingSpinner from '../../components/UI/LoadingSpinner';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { LogIn, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
+import { LoginRequest } from "../../types";
+import { isStandaloneMode } from "../../config/authConfig";
+import LoadingSpinner from "../../components/UI/LoadingSpinner";
 
 const Login: React.FC = () => {
   const { login, loginWithAzure } = useAuth();
-  const { theme } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [azureLoading, setAzureLoading] = useState(false);
@@ -54,7 +51,7 @@ const Login: React.FC = () => {
             <span className="text-white font-bold text-2xl">L</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Welcome to Lumo
+            Welcome to ShellWeb Editor
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             PowerShell Web Editor - Sign in to continue
@@ -74,11 +71,24 @@ const Login: React.FC = () => {
                 {azureLoading ? (
                   <LoadingSpinner size="small" color="gray" />
                 ) : (
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12.017 0L23.014 7.003V24H12.017V0Z" fill="#f25022" />
+                  <svg
+                    className="w-5 h-5"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12.017 0L23.014 7.003V24H12.017V0Z"
+                      fill="#f25022"
+                    />
                     <path d="M1.005 0H12.017V11.5H1.005V0Z" fill="#7fba00" />
-                    <path d="M12.017 12.5V24H1.005V12.5H12.017Z" fill="#00a4ef" />
-                    <path d="M12.017 0V11.5H23.014V7.003L12.017 0Z" fill="#ffb900" />
+                    <path
+                      d="M12.017 12.5V24H1.005V12.5H12.017Z"
+                      fill="#00a4ef"
+                    />
+                    <path
+                      d="M12.017 0V11.5H23.014V7.003L12.017 0Z"
+                      fill="#ffb900"
+                    />
                   </svg>
                 )}
                 <span>Continue with Microsoft</span>
@@ -101,7 +111,10 @@ const Login: React.FC = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
                 Email Address
               </label>
               <div className="relative">
@@ -109,11 +122,11 @@ const Login: React.FC = () => {
                   <Mail className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  {...register('email', {
-                    required: 'Email is required',
+                  {...register("email", {
+                    required: "Email is required",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Invalid email address',
+                      message: "Invalid email address",
                     },
                   })}
                   type="email"
@@ -133,7 +146,10 @@ const Login: React.FC = () => {
             {/* Password (optional in standalone mode) */}
             {isStandaloneMode && (
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >
                   Password <span className="text-gray-400">(optional)</span>
                 </label>
                 <div className="relative">
@@ -141,13 +157,13 @@ const Login: React.FC = () => {
                     <Lock className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    {...register('password', {
+                    {...register("password", {
                       minLength: {
                         value: 6,
-                        message: 'Password must be at least 6 characters',
+                        message: "Password must be at least 6 characters",
                       },
                     })}
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     className="input pl-10 pr-10"
                     placeholder="Enter your password (optional)"
@@ -176,11 +192,14 @@ const Login: React.FC = () => {
             {/* Display Name (for new users in standalone mode) */}
             {isStandaloneMode && (
               <div>
-                <label htmlFor="displayName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label
+                  htmlFor="displayName"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >
                   Display Name <span className="text-gray-400">(optional)</span>
                 </label>
                 <input
-                  {...register('displayName')}
+                  {...register("displayName")}
                   type="text"
                   id="displayName"
                   className="input"
@@ -200,7 +219,7 @@ const Login: React.FC = () => {
               ) : (
                 <LogIn className="w-4 h-4" />
               )}
-              <span>{loading ? 'Signing in...' : 'Sign In'}</span>
+              <span>{loading ? "Signing in..." : "Sign In"}</span>
             </button>
           </form>
 
@@ -208,7 +227,8 @@ const Login: React.FC = () => {
           {isStandaloneMode && (
             <div className="text-center">
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Running in standalone mode. New users will be created automatically.
+                Running in standalone mode. New users will be created
+                automatically.
               </p>
             </div>
           )}

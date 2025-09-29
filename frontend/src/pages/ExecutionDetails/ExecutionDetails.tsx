@@ -1,21 +1,29 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Clock, User, Terminal, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  Clock,
+  User,
+  Terminal,
+  CheckCircle,
+  AlertCircle,
+  XCircle,
+} from "lucide-react";
 
 const ExecutionDetails: React.FC = () => {
   const { id } = useParams();
 
   // Mock execution data
   const execution = {
-    id: id || '1',
-    scriptName: 'Azure VM Status Check',
-    scriptId: '1',
-    executor: 'John Doe',
-    startedAt: '2024-01-20T10:30:00Z',
-    finishedAt: '2024-01-20T10:30:02Z',
-    status: 'success' as const,
+    id: id || "1",
+    scriptName: "Azure VM Status Check",
+    scriptId: "1",
+    executor: "John Doe",
+    startedAt: "2024-01-20T10:30:00Z",
+    finishedAt: "2024-01-20T10:30:02Z",
+    status: "success" as const,
     exitCode: 0,
-    duration: '2.3s',
+    duration: "2.3s",
     stdout: `Hello, World!
 VM Name: WebServer01
 Resource Group: Production-RG
@@ -30,38 +38,41 @@ Status: Running
 Total VMs found: 2
 
 Script execution completed successfully.`,
-    stderr: '',
+    stderr: "",
   };
 
   const getStatusInfo = (status: string) => {
     switch (status) {
-      case 'success':
+      case "success":
         return {
           icon: CheckCircle,
-          color: 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/20',
-          bgColor: 'bg-green-50 dark:bg-green-900/10',
-          borderColor: 'border-green-200 dark:border-green-800',
+          color:
+            "text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/20",
+          bgColor: "bg-green-50 dark:bg-green-900/10",
+          borderColor: "border-green-200 dark:border-green-800",
         };
-      case 'warning':
+      case "warning":
         return {
           icon: AlertCircle,
-          color: 'text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900/20',
-          bgColor: 'bg-yellow-50 dark:bg-yellow-900/10',
-          borderColor: 'border-yellow-200 dark:border-yellow-800',
+          color:
+            "text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900/20",
+          bgColor: "bg-yellow-50 dark:bg-yellow-900/10",
+          borderColor: "border-yellow-200 dark:border-yellow-800",
         };
-      case 'error':
+      case "error":
         return {
           icon: XCircle,
-          color: 'text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-900/20',
-          bgColor: 'bg-red-50 dark:bg-red-900/10',
-          borderColor: 'border-red-200 dark:border-red-800',
+          color: "text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-900/20",
+          bgColor: "bg-red-50 dark:bg-red-900/10",
+          borderColor: "border-red-200 dark:border-red-800",
         };
       default:
         return {
           icon: Clock,
-          color: 'text-gray-600 bg-gray-100 dark:text-gray-400 dark:bg-gray-800',
-          bgColor: 'bg-gray-50 dark:bg-gray-900/10',
-          borderColor: 'border-gray-200 dark:border-gray-800',
+          color:
+            "text-gray-600 bg-gray-100 dark:text-gray-400 dark:bg-gray-800",
+          bgColor: "bg-gray-50 dark:bg-gray-900/10",
+          borderColor: "border-gray-200 dark:border-gray-800",
         };
     }
   };
@@ -71,13 +82,6 @@ Script execution completed successfully.`,
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
-  };
-
-  const calculateDuration = (start: string, end: string) => {
-    const startTime = new Date(start).getTime();
-    const endTime = new Date(end).getTime();
-    const duration = (endTime - startTime) / 1000;
-    return `${duration.toFixed(1)}s`;
   };
 
   return (
@@ -101,7 +105,9 @@ Script execution completed successfully.`,
       </div>
 
       {/* Execution Overview */}
-      <div className={`card border-l-4 ${statusInfo.borderColor} ${statusInfo.bgColor}`}>
+      <div
+        className={`card border-l-4 ${statusInfo.borderColor} ${statusInfo.bgColor}`}
+      >
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-4">
             <div className={`p-3 rounded-full ${statusInfo.color}`}>
@@ -117,9 +123,12 @@ Script execution completed successfully.`,
             </div>
           </div>
           <div className="text-right">
-            <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusInfo.color}`}>
+            <span
+              className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusInfo.color}`}
+            >
               <StatusIcon className="w-4 h-4 mr-1" />
-              {execution.status.charAt(0).toUpperCase() + execution.status.slice(1)}
+              {execution.status.charAt(0).toUpperCase() +
+                execution.status.slice(1)}
             </span>
           </div>
         </div>
@@ -133,7 +142,9 @@ Script execution completed successfully.`,
               <User className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Executed by</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Executed by
+              </p>
               <p className="font-semibold text-gray-900 dark:text-white">
                 {execution.executor}
               </p>
@@ -147,7 +158,9 @@ Script execution completed successfully.`,
               <Clock className="w-5 h-5 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Duration</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Duration
+              </p>
               <p className="font-semibold text-gray-900 dark:text-white">
                 {execution.duration}
               </p>
@@ -161,7 +174,9 @@ Script execution completed successfully.`,
               <Terminal className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Exit Code</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Exit Code
+              </p>
               <p className="font-semibold text-gray-900 dark:text-white">
                 {execution.exitCode}
               </p>
@@ -175,7 +190,9 @@ Script execution completed successfully.`,
               <Clock className="w-5 h-5 text-orange-600 dark:text-orange-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Started At</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Started At
+              </p>
               <p className="font-semibold text-gray-900 dark:text-white text-sm">
                 {formatDate(execution.startedAt)}
               </p>
@@ -203,16 +220,22 @@ Script execution completed successfully.`,
           </div>
           <div className="ml-1.5 w-0.5 h-8 bg-gray-300 dark:bg-gray-600"></div>
           <div className="flex items-center space-x-4">
-            <div className={`w-3 h-3 rounded-full ${
-              execution.status === 'success' ? 'bg-green-500' : 
-              execution.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'
-            }`}></div>
+            <div
+              className={`w-3 h-3 rounded-full ${
+                execution.status === "success"
+                  ? "bg-green-500"
+                  : execution.status === "warning"
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
+              }`}
+            ></div>
             <div className="flex-1">
               <p className="font-medium text-gray-900 dark:text-white">
                 Execution Completed
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                {formatDate(execution.finishedAt)} • Duration: {execution.duration}
+                {formatDate(execution.finishedAt)} • Duration:{" "}
+                {execution.duration}
               </p>
             </div>
           </div>
@@ -280,9 +303,7 @@ Script execution completed successfully.`,
             >
               View Script
             </Link>
-            <button className="btn-primary">
-              Re-run Script
-            </button>
+            <button className="btn-primary">Re-run Script</button>
           </div>
         </div>
       </div>

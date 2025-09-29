@@ -123,29 +123,29 @@ router.get('/stats', asyncHandler(async (req: AuthRequest, res: Response) => {
         avgExecutionTime: Math.round(avgDuration * 1000), // Convert to milliseconds
       },
       charts: {
-        topScripts: topScriptsResult.rows.map(row => ({
+        topScripts: topScriptsResult.rows.map((row: any) => ({
           id: row.id,
           name: row.name,
           executionCount: parseInt(row.execution_count),
           creatorName: row.creator_name,
         })),
-        dailyExecutions: dailyExecutionsResult.rows.map(row => ({
+        dailyExecutions: dailyExecutionsResult.rows.map((row: any) => ({
           date: row.date,
           total: parseInt(row.executions),
           successful: parseInt(row.successful),
           failed: parseInt(row.failed),
           warnings: parseInt(row.warnings),
         })),
-        roleDistribution: roleDistributionResult.rows.map(row => ({
+        roleDistribution: roleDistributionResult.rows.map((row: any) => ({
           role: row.role,
           count: parseInt(row.count),
         })),
-        statusDistribution: statusDistributionResult.rows.map(row => ({
+        statusDistribution: statusDistributionResult.rows.map((row: any) => ({
           status: row.status,
           count: parseInt(row.count),
         })),
       },
-      recentActivity: recentActivityResult.rows.map(row => ({
+      recentActivity: recentActivityResult.rows.map((row: any) => ({
         type: row.type,
         id: row.id,
         scriptName: row.script_name,
@@ -210,12 +210,12 @@ router.get('/user-stats', asyncHandler(async (req: AuthRequest, res: Response) =
           : 0,
       },
       charts: {
-        topScripts: userTopScriptsResult.rows.map(row => ({
+        topScripts: userTopScriptsResult.rows.map((row: any) => ({
           id: row.id,
           name: row.name,
           executionCount: parseInt(row.execution_count),
         })),
-        executionHistory: userExecutionHistoryResult.rows.map(row => ({
+        executionHistory: userExecutionHistoryResult.rows.map((row: any) => ({
           date: row.date,
           executions: parseInt(row.executions),
         })),

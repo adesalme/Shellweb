@@ -1,11 +1,12 @@
-import { Pool, PoolClient } from 'pg';
+import { Pool, PoolClient } from "pg";
 
 export class Database {
   private static pool: Pool;
 
   static async initialize(): Promise<void> {
-    const connectionString = process.env.DATABASE_URL || 
-      'postgres://lumo:secretpassword@localhost:5432/lumo_db';
+    const connectionString =
+      process.env.DATABASE_URL ||
+      "postgres://lumo:secretpassword@localhost:5432/lumo_db";
 
     this.pool = new Pool({
       connectionString,
@@ -17,10 +18,10 @@ export class Database {
     // Test connection
     try {
       const client = await this.pool.connect();
-      await client.query('SELECT NOW()');
+      await client.query("SELECT NOW()");
       client.release();
     } catch (error) {
-      console.error('Database connection failed:', error);
+      console.error("Database connection failed:", error);
       throw error;
     }
   }
@@ -30,10 +31,14 @@ export class Database {
     try {
       const res = await this.pool.query(text, params);
       const duration = Date.now() - start;
-      console.log('Executed query', { text: text.substring(0, 50), duration, rows: res.rowCount });
+      console.log("Executed query", {
+        text: text.substring(0, 50),
+        duration,
+        rows: res.rowCount,
+      });
       return res;
     } catch (error) {
-      console.error('Database query error:', error);
+      console.error("Database query error:", error);
       throw error;
     }
   }
@@ -55,7 +60,8 @@ export interface User {
   azure_oid?: string;
   email: string;
   display_name?: string;
-  role: 'admin' | 'dev' | 'viewer';
+  password?: string;
+  role: "admin" | "dev" | "viewer";
   created_at: Date;
 }
 
@@ -84,7 +90,7 @@ export interface Execution {
   executor_id: string;
   started_at: Date;
   finished_at?: Date;
-  status: 'success' | 'warning' | 'error';
+  status: "success" | "warning" | "error";
   stdout?: string;
   stderr?: string;
   exit_code?: number;
