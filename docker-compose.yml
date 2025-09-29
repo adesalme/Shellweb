@@ -1,0 +1,78 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: lumo-postgres
+    environment:
+      POSTGRES_USER: lumo
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: lumo_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lumo -d lumo_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lumo-backend
+    environment:
+      DATABASE_URL: postgres://lumo:secretpassword@postgres:5432/lumo_db
+      PORT: 4000
+      JWT_SECRET: superSecretKey123456789
+      POWERSHELL_EXECUTOR_URL: http://ps-executor:5001
+      NODE_ENV: development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ps-executor:
+        condition: service_started
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run dev
+
+  ps-executor:
+    build:
+      context: ./ps-executor
+      dockerfile: Dockerfile
+    container_name: lumo-ps-executor
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./ps-executor:/app
+    environment:
+      - ASPNETCORE_URLS=http://*:5001
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lumo-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:4000/api
+      REACT_APP_AZURE_CLIENT_ID: your-azure-client-id
+      REACT_APP_AZURE_TENANT_ID: your-azure-tenant-id
+      REACT_APP_STANDALONE_MODE: true
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm start
+
+volumes:
+  pgdata:
