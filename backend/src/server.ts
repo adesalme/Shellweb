@@ -10,17 +10,15 @@ import { executionsRouter } from "./routes/executions";
 import { dashboardRouter } from "./routes/dashboard";
 import { healthRouter } from "./routes/health";
 import { Database } from "./services/database";
+import dotenv from "dotenv";
 
 // Load environment variables
-dotenv.config({ path: "/home/arsene/Shellweb/backend/.env" });
-
+dotenv.config({ path: ".env" });
 console.log("=== ENV DIAGNOSTIC ===");
-console.log("JWT_SECRET:", process.env.JWT_SECRET ? "LOADED" : "NOT FOUND");
-console.log("DATABASE_URL:", process.env.DATABASE_URL ? "LOADED" : "NOT FOUND");
+console.log("JWT_SECRET:", process.env ? "LOADED" : "NOT FOUND");
+console.log("DATABASE_URL:", process.env ? "LOADED" : "NOT FOUND");
 console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("========================");
-const JWT_SECRET = process.env.JWT_SECRET;
-console.log("JWT_SECRET", JWT_SECRET);
 
 const app = express();
 const PORT = process.env.PORT || 4000;
